@@ -147,25 +147,23 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 	@Override
 	public synchronized ArrayList<ProdottoBean> doRetrieveAll(String order) throws SQLException {
 		Connection connection = null;
-		String selectSQL = null;
 		PreparedStatement preparedStatement = null;
 
 		ArrayList<ProdottoBean> products = new ArrayList<ProdottoBean>();
-		
-
 		try {
-			connection = ds.getConnection();
 			
+			String selectSQL = "SELECT * FROM "+ ProdottoDao.TABLE_NAME;
+			
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
 
 			
 			
 			if (order != null && !order.equals("")) {
 				
-				selectSQL += " ORDER BY " + order;
-				PreparedStatement ps = connection.prepareStatement(selectSQL);
+				String selectSQL1 = "SELECT * FROM " + ProdottoDao.TABLE_NAME +" ORDER BY " + order;
+				connection.prepareStatement(selectSQL1);
 			}
-			
-			preparedStatement = connection.prepareStatement(selectSQL);
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
